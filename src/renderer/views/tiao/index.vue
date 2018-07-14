@@ -132,7 +132,7 @@ export default {
   
     mounted() {
     /*         this.axios.post("http://rap2api.taobao.org/app/mock/15053/msg").then(body => {this.content = body.data; });    */
-  this.axios.get("https://easy-mock.com/mock/5950a2419adc231f356a6636/vue-admin/table/list").then(body => {this.content = body.data;
+  this.axios.get("http://127.0.0.1:8080/search").then(body => {this.content = body.data;
  });
                                                      
         }

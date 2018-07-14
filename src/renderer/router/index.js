@@ -54,7 +54,20 @@ export const constantRouterMap = [
       }
     }]
   },
-
+  {
+    path: '/log',
+    component: Layout,
+    children: [{
+      path: 'index',
+      name: 'log',
+      component: () =>
+        import('@/views/log/index'),
+      meta: {
+        title: '过期药品',
+        icon: 'form'
+      }
+    }]
+  },
   {
     path: '/tiao',
     component: Layout,
@@ -69,20 +82,21 @@ export const constantRouterMap = [
       }
     }]
   },
-    {
-      path: '/admin',
-      component: Layout,
-      children: [{
-        path: 'index',
-        name: 'admin',
-        component: () =>
-          import ('@/views/admin/index'),
-        meta: {
-          title: '管理员',
-          icon: 'form'
-        }
-      }]
-    },
+  {
+    path: '/supplier',
+    component: Layout,
+    children: [{
+      path: 'index',
+      name: 'supplier',
+      component: () =>
+        import('@/views/supplier/index'),
+      meta: {
+        title: '供货商',
+        icon: 'form'
+      }
+    }]
+  },
+
   {
     path: '/example',
     component: Layout,
