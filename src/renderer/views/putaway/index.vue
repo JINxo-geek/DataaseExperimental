@@ -28,9 +28,9 @@
   </el-form-item>
       <el-form-item label="入库时间" required>
     <el-col :span="11">
-      <el-form-item prop="Indata">
+      <el-form-item prop="Indate">
         <el-date-picker type="date" placeholder="选择日期" format="yyyy 年 MM 月 dd 日"
-      value-format="yyyy-MM-dd" v-model="ruleForm.Indata" style="width: 100%;"></el-date-picker>
+      value-format="yyyy-MM-dd" v-model="ruleForm.Indate" style="width: 100%;"></el-date-picker>
       </el-form-item>
     </el-col>
      </el-form-item>
@@ -48,8 +48,8 @@
 
 
   <div slot="footer" class="dialog-footer">
-    <el-button @click="fun1">继续扫码</el-button>
-    <el-button type="primary" @click="dialogFormVisible = false">确 定</el-button>
+    <el-button @click="fun1">确定</el-button>
+    <el-button type="primary" @click="dialogFormVisible = false">取消</el-button>
   </div>
 </el-dialog>
 		<div>
@@ -83,7 +83,7 @@ export default {
 			Hounnumber:'',
 			Empnumber:'',
 			Inliang:'',
-			Indata:''
+			Indate:''
 				},
 				 rules: {
         	cas:[
@@ -134,14 +134,22 @@ this.dialogFormVisible = true;
 
 
 		},
-	close(){	this.fun1();
+	close(){	
+			this.dialogFormVisible = false;
 			},
 		fun1(){$("#goon").click();
-		this.msg = '';
+		this.msg = '';//清空输入框
 		this.$message({
             type: 'info',
-            message: '取消输入'
-		  }); 
+            message: '入库成功'
+			}); 
+this.axios.post('http://127.0.0.1:8080/Inlist',this.ruleForm)
+.then(function() {
+console.log("发送入库");
+})
+.catch(function(error) {
+console.log(error);
+});
 			this.dialogFormVisible = false;
 			console.log(this.ruleForm)
 	}
