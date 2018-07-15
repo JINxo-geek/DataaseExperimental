@@ -1,56 +1,47 @@
 <template>
   <div class="app-container">
 <p>{{msg}}</p>
-<el-button id="dialog" type="text" @click="dialogFormVisible = true" style="visibility: hidden">打开嵌套表单的 Dialog</el-button>
+<p>{{ruleForm}}</p>
+<el-button id="dialog" type="text" @click="open()" style="visibility: hidden">打开嵌套表单的 Dialog</el-button>
 <el-dialog title="填写药品信息" :visible.sync="dialogFormVisible" @close="close()">
   
 <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm" :close-on-click-modal="false" >
-  <el-form-item label="cas号" prop="cas">
-    <el-input v-model="ruleForm.cas"></el-input>
+  <el-form-item label="入库单编号" prop="Innumber">
+    <el-input v-model="ruleForm.Innumber"></el-input>
   </el-form-item>
-    <el-form-item label="化学品名称" prop="name">
-    <el-input v-model="ruleForm.name"></el-input>
+    <el-form-item label="药品名称" prop="Gname">
+    <el-input v-model="ruleForm.Gname"></el-input>
   </el-form-item>
-   <el-form-item label="入库数量" prop="sl">
-    <el-input v-model="ruleForm.sl"></el-input>
+   
+  <el-form-item label="仓库" prop="jh">
+			  <el-select v-model="ruleForm.Hounnumber" placeholder="请选择仓库">
+			<el-option label="101房间" value="1"></el-option>
+			<el-option label="102房间" value="2"></el-option>
+			<el-option label="102房间" value="2"></el-option>
+			  </el-select>
+  </el-form-item> 
+  <el-form-item label="职员编号" prop="jh">
+			  <el-select v-model="ruleForm.Empnumber" placeholder="请选择员工">
+      <el-option label="01" value="01"></el-option>
+      <el-option label="02" value="02"></el-option>
+			  </el-select>
   </el-form-item>
       <el-form-item label="入库时间" required>
     <el-col :span="11">
-      <el-form-item prop="date1">
-        <el-date-picker type="date" placeholder="选择日期" v-model="ruleForm.date1" style="width: 100%;"></el-date-picker>
+      <el-form-item prop="Indata">
+        <el-date-picker type="date" placeholder="选择日期" format="yyyy 年 MM 月 dd 日"
+      value-format="yyyy-MM-dd" v-model="ruleForm.Indata" style="width: 100%;"></el-date-picker>
       </el-form-item>
     </el-col>
+     </el-form-item>
+
+
+  <el-form-item label="入库数量" prop="Inliang">
+    <el-input v-model="ruleForm.Inliang"></el-input>
+  </el-form-item>
+ 
     
-  </el-form-item>
-    <el-form-item label="浓度" prop="nd">
-    <el-input v-model="ruleForm.nd"></el-input>
-  </el-form-item>
-      <el-form-item label="规格" prop="hl">
-    <el-input v-model="ruleForm.hl"></el-input>
-  </el-form-item>
-  <el-form-item label="级号" prop="jh">
-			  <el-select v-model="ruleForm.jh" placeholder="请选择试剂级别">
-      <el-option label="GR" value="GR"></el-option>
-      <el-option label="AR" value="AR"></el-option>
-			<el-option label="CP" value="CP"></el-option>
-			<el-option label="LR" value="LR"></el-option>
-			  </el-select>
-  </el-form-item>
-	  <el-form-item label="化学品性质" prop="type">
-    <el-checkbox-group v-model="ruleForm.type">
-      <el-checkbox label="剧毒" name="剧毒"></el-checkbox>
-      <el-checkbox label="易燃" name="易燃"></el-checkbox>
-      <el-checkbox label="易制爆" name="易制爆"></el-checkbox>
-      <el-checkbox label="化危品" name="化危品"></el-checkbox>
-			<el-checkbox label="普通试剂" name="普通试剂"></el-checkbox>
-    </el-checkbox-group>
-  </el-form-item>
-    <el-form-item label="厂家" prop="cj">
-    <el-input v-model="ruleForm.cj"></el-input>
-  </el-form-item>
-    <el-form-item label="批号" prop="ph">
-    <el-input v-model="ruleForm.ph"></el-input>
-  </el-form-item>
+
 </el-form>
 
 
@@ -87,16 +78,12 @@ export default {
   data() {
     return { 
 			 ruleForm: {
-         cas: '',
-          name:'',
-          wxx: '',
-					nd: '',
-					type: [],
-          jh: '',
-          hl: '',
-          cj: '',
-					ph: '',
-					sl: '',
+			Innumber:'',
+			Gname: 'test',
+			Hounnumber:'',
+			Empnumber:'',
+			Inliang:'',
+			Indata:''
 				},
 				 rules: {
         	cas:[
@@ -130,13 +117,23 @@ export default {
         formLabelWidth: '120px',
 		msg: ' ',
       list: null,
-      listLoading: true
+			listLoading: true,
+
+		
     }
   },
   created() {
    
   },
   methods: {
+		//打开入库表单open()
+
+		open(){
+this.dialogFormVisible = true;
+/* this.ruleForm.Gname = this.Gname; */
+
+
+		},
 	close(){	this.fun1();
 			},
 		fun1(){$("#goon").click();
@@ -148,14 +145,19 @@ export default {
 			this.dialogFormVisible = false;
 			console.log(this.ruleForm)
 	}
-  },
+  },	  
    mounted:function(){
+		 var that = this;
 		 var layer = this.$layer;//vue-layer和这个代码兼容
+		 console.log(this.ruleForm.Gname);
+		 var Gcode;
+		 var Gname;
+		Gname = this.ruleForm.Gname;
    this.dialogFormVisible;
 		 //在下面的匿名函数中this指向的不是vue的实例，所以访问不到dialogFormVisible，我们将this.dialogFormVisible赋值给一个变量
 
      (function ($) {
-
+console.log('获取到外部的属性'+Gname);
 	var barcode = {
 
 		listenerObj: null,
@@ -239,7 +241,7 @@ export default {
 
 			if (code.length !== this.barcodeLen) {
 				$(this.listenerObj).val("").focus();
-				layer.msg('条形码不合法',{time : 800});
+				layer.msg('条形码不合法');
 			} else {
 				return true;
 			}
@@ -319,7 +321,7 @@ export default {
 	}
 
 })(jQuery);
-var valmsg;
+
      $("#barCode").startListen({
 				barcodeLen :13,
 				letter : true,
@@ -329,21 +331,40 @@ var valmsg;
 					layer.msg(code);
 				} */
 				show: function (code) {
-					/* layer.msg("扫码成功"); */
+						Gcode = code;
+					/*  layer.msg("扫码成功");  */
+					 tiao();
 					$('#dialog').click();
+					console.log("码是多少"+code);
+					console.log("药品名"+ Gname);
+				
 layer.msg(code);
-valmsg = code;
-console.log(valmsg);
+
  $('#barCode').hide();
+
 				}
 			});
+			function tiao(){
+		
+console.log('Gcode'+Gcode);
+if(Gcode=="6908085000264"){
+	that.ruleForm.Gname = '炎热清颗粒';
+
+		console.log("相等")
+}else{
+	console.log("不相等")
+}
+	console.log("药品名2"+ Gname);
+}
 
  $("#goon").click(function () {
  $('#barCode').show();
  setTimeout(function () {
  $('#barCode').focus().select();
 	 }, 300);
-        });
+				});
+				
+
   },
 }
 </script>

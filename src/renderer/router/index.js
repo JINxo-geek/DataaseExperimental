@@ -96,6 +96,20 @@ export const constantRouterMap = [
       }
     }]
   },
+  {
+    path: '/goods',
+    component: Layout,
+    children: [{
+      path: 'index',
+      name: 'goods',
+      component: () =>
+        import ('@/views/goods/index'),
+      meta: {
+        title: '药品',
+        icon: 'form'
+      }
+    }]
+  },
 
   {
     path: '/example',
