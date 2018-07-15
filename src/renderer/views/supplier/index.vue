@@ -3,7 +3,7 @@
 <template>
   <div id="app">
       <p style= "text-align: center;">供货商表</p>
-  <el-table :data="tableData" border="true" style="width: 100%">
+  <el-table :data="tableData" border style="width: 100%">
 
      <el-table-column type="selection" width="55">
     </el-table-column>
@@ -26,6 +26,15 @@
  label="供货商电话"
  >
  </el-table-column>
+
+ <el-table-column label="操作">
+      <template slot-scope="scope">
+            <el-button
+          size="mini"
+          type="danger"
+          @click="handleDelete(scope.$index, scope.row)">删除</el-button>
+      </template>
+    </el-table-column>
 
     </el-table>
 
@@ -61,6 +70,22 @@
 <script>
 export default {
   methods: {
+    //删除表格
+          handleDelete(index, row) {
+        console.log(index, row);
+        console.log(row.Supnumber);
+this.axios.post('http://127.0.0.1:8080/despur',row)
+.then(function() {
+console.log("删除");
+$("#shuaxin").click();
+})
+.catch(function(error) {
+console.log(error);
+});
+},
+        
+
+
 fun1:function(){
 
             this.dialogFormVisible = false;
